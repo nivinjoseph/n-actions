@@ -9,11 +9,13 @@
     "ts-build-dist": "npm run ts-build && tsc -p ./dist",
     "clean-src": "find ./src -name '*.js' -delete -o -name '*.map' -delete",
     "clean-test": "find ./test -name '*.js' -delete -o -name '*.map' -delete",
+    "clean-dist": "find ./dist -name '*.js' -delete",
     "pretest": "npm run ts-build",
     "test": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js' || true",
     "pretest-ci": "npm run pretest",
-    "test-ci": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'"
-},
+    "test-ci": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",
+    "prepare-publish": "npm run clean-dist && npm install && npm run ts-build-dist && npm prune --production"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nivinjoseph/n-actions.git"
