@@ -108,7 +108,9 @@ typings/
 
 # Ignores compiled TypeScript files
 tsconfig.tsbuildinfo
-src/**/*.js
-src/**/*.map
+
+notify-slack/**/*.js
+notify-slack/**/*.map
+
 test/**/*.js
 test/**/*.map
