@@ -37,12 +37,12 @@ async function func(): Promise<void>
                             type: "section",
                             text: {
                                 type: "mrkdwn",
-                                text: `${jobType}: *${statusMessage}*`,
-                            },
-                        },
-                    ],
-                },
-            ],
+                                text: `${jobType}: *${statusMessage}*`
+                            }
+                        }
+                    ]
+                }
+            ]
         };
 
         const response = await Axios.default.post(Core.getInput("slack-url"), payload);
