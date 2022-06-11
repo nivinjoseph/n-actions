@@ -8,5 +8,5 @@ inputs:
   slack-url:
     description: 'URL for Slack integration'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: '../dist/notify-slack.js'
