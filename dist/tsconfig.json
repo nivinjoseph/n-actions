@@ -4,6 +4,9 @@
         "outDir": "."
     },
     "include": [
-        "../notify-slack/**/*"
+        "../check-image-exists/**/*",
+        "../create-ecr-repo/**/*",
+        "../notify-slack/**/*",
+        "../resolve-app-version/**/*"
     ]
 }

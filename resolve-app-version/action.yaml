@@ -5,4 +5,4 @@ outputs:
     description: 'Version of the app in the format "vX.X.X".'
 runs:
   using: 'node16'
-  main: '../dist/resolve-app-version.js'
+  main: '../dist/resolve-app-version/resolve-app-version.js'
