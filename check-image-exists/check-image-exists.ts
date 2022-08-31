@@ -13,7 +13,9 @@ async function func(): Promise<void>
 
         let imagesFound: Array<ImageDetail> | null = null;
         
-        const describe = await client.send(new DescribeImagesCommand({
+        try 
+        {
+            const describe = await client.send(new DescribeImagesCommand({
                 repositoryName: repoName,
                 filter: {
                     tagStatus: TagStatus.TAGGED
@@ -22,8 +24,14 @@ async function func(): Promise<void>
                     imageTag
                 }]
             }));
-            imagesFound = describe.imageDetails ?? null;
-
+            imagesFound = describe.imageDetails ?? null;    
+        }
+        catch (error)
+        {
+            console.warn(error);
+            imagesFound = null;
+        }
+        
         if (imagesFound != null && imagesFound.length !== 0)
         {
             Core.info(`Image with tag '${imageTag}' exists in repository '${repoName}'.`);

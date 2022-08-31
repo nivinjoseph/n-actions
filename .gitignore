@@ -109,8 +109,17 @@ typings/
 # Ignores compiled TypeScript files
 tsconfig.tsbuildinfo
 
+check-image-exists/**/*.js
+check-image-exists/**/*.map
+
+create-ecr-repo/**/*.js
+create-ecr-repo/**/*.map
+
 notify-slack/**/*.js
 notify-slack/**/*.map
+
+resolve-app-version/**/*.js
+resolve-app-version/**/*.map
 
 test/**/*.js
 test/**/*.map

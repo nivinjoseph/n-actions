@@ -11,16 +11,22 @@ function func() {
             const imageTag = Core.getInput("image-tag");
             const client = new client_ecr_1.ECRClient({});
             let imagesFound = null;
-            const describe = yield client.send(new client_ecr_1.DescribeImagesCommand({
-                repositoryName: repoName,
-                filter: {
-                    tagStatus: client_ecr_1.TagStatus.TAGGED
-                },
-                imageIds: [{
-                        imageTag
-                    }]
-            }));
-            imagesFound = (_a = describe.imageDetails) !== null && _a !== void 0 ? _a : null;
+            try {
+                const describe = yield client.send(new client_ecr_1.DescribeImagesCommand({
+                    repositoryName: repoName,
+                    filter: {
+                        tagStatus: client_ecr_1.TagStatus.TAGGED
+                    },
+                    imageIds: [{
+                            imageTag
+                        }]
+                }));
+                imagesFound = (_a = describe.imageDetails) !== null && _a !== void 0 ? _a : null;
+            }
+            catch (error) {
+                console.warn(error);
+                imagesFound = null;
+            }
             if (imagesFound != null && imagesFound.length !== 0) {
                 Core.info(`Image with tag '${imageTag}' exists in repository '${repoName}'.`);
                 Core.setOutput("exists", "yes");
