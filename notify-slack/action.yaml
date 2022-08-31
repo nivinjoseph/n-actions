@@ -3,10 +3,13 @@ description: 'Notify IAC status to a specific Slack channel.'
 inputs:
   job-type:
     description: 'Type of job'
+    required: true
   job-status:
     description: 'Status of the job'
+    required: true
   slack-url:
     description: 'URL for Slack integration'
+    required: true
 runs:
   using: 'node16'
   main: '../dist/notify-slack.js'

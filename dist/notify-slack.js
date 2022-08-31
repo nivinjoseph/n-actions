@@ -48,5 +48,5 @@ function func() {
         }
     });
 }
-func().then().catch(e => console.error(e));
+func().catch(e => console.error(e));
 //# sourceMappingURL=notify-slack.js.map

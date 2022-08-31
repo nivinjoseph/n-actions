@@ -32,13 +32,15 @@
   "homepage": "https://github.com/nivinjoseph/n-actions#readme",
   "devDependencies": {
     "@types/node": "^16.11.38",
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.27.1",
-    "eslint": "^8.17.0",
-    "typescript": "^4.7.3"
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.23.0",
+    "typescript": "^4.8.2"
   },
   "dependencies": {
-    "@actions/core": "^1.8.2",
+    "@actions/core": "^1.9.1",
+    "@aws-sdk/client-ecr": "^3.161.0",
+    "@nivinjoseph/n-config": "^1.0.35",
     "axios": "^0.27.2",
     "tslib": "^2.4.0"
   }

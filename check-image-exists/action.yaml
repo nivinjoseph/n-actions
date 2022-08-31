@@ -1,0 +1,15 @@
+name: 'Check if image exists'
+description: 'Check if an image with the given tag exists in an AWS ECR repository.'
+inputs:
+  repository-name:
+    description: 'Name of the repository'
+    required: true
+  image-tag:
+    description: 'Image tag'
+    required: true
+outputs:
+  exists:
+    description: 'String [yes | no] indicating whether the image exists.'
+runs:
+  using: 'node16'
+  main: '../dist/check-image-exists.js'

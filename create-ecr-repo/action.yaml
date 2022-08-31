@@ -1,0 +1,9 @@
+name: 'Create AWS ECR repository'
+description: 'Create AWS ECR repository if it does not exist.'
+inputs:
+  repository-name:
+    description: 'Name of the repository'
+    required: true
+runs:
+  using: 'node16'
+  main: '../dist/create-ecr-repo.js'

@@ -56,4 +56,4 @@ async function func(): Promise<void>
     }
 }
 
-func().then().catch(e => console.error(e));
+func().catch(e => console.error(e));

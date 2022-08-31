@@ -1,0 +1,8 @@
+name: 'Resolve app version'
+description: 'Resolve the app version from the package.json file of the app.'
+outputs:
+  version:
+    description: 'Version of the app in the format "vX.X.X".'
+runs:
+  using: 'node16'
+  main: '../dist/resolve-app-version.js'
