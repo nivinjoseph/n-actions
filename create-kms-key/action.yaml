@@ -1,0 +1,12 @@
+name: 'Create AWS KMS key'
+description: 'Create AWS KMS key if it does not exist.'
+inputs:
+  key-alias:
+    description: 'Alias of the key'
+    required: true
+outputs:
+  arn:
+    description: 'String ARN of the key.'
+runs:
+  using: 'node16'
+  main: '../dist/create-kms-key/create-kms-key.js'
