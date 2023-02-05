@@ -25,7 +25,7 @@ async function func(): Promise<void>
         if (keyMeta != null && keyMeta.Arn != null)
         {
             Core.info(`Key with alias '${keyAlias}' found. Skipping creation.`);
-            Core.setOutput("arn", keyMeta.Arn);
+            Core.setOutput("id", keyMeta.KeyId);
             return;
         }
 
@@ -47,7 +47,7 @@ async function func(): Promise<void>
 
         Core.info(`Key with alias '${keyAlias}' successfully created.`);
         
-        Core.setOutput("arn", createKey.KeyMetadata.Arn);
+        Core.setOutput("id", createKey.KeyMetadata.KeyId);
     }
     catch (error: any)
     {

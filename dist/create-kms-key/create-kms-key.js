@@ -20,7 +20,7 @@ function func() {
             }
             if (keyMeta != null && keyMeta.Arn != null) {
                 Core.info(`Key with alias '${keyAlias}' found. Skipping creation.`);
-                Core.setOutput("arn", keyMeta.Arn);
+                Core.setOutput("id", keyMeta.KeyId);
                 return;
             }
             Core.info(`Key with alias '${keyAlias}' not found. Will create key.`);
@@ -36,7 +36,7 @@ function func() {
                 TargetKeyId: createKey.KeyMetadata.Arn
             }));
             Core.info(`Key with alias '${keyAlias}' successfully created.`);
-            Core.setOutput("arn", createKey.KeyMetadata.Arn);
+            Core.setOutput("id", createKey.KeyMetadata.KeyId);
         }
         catch (error) {
             Core.setFailed(error.message);
