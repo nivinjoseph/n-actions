@@ -1,5 +1,7 @@
 import * as Core from "@actions/core";
 import { KMSClient, DescribeKeyCommand, NotFoundException, KeyMetadata, CreateKeyCommand, CreateAliasCommand } from "@aws-sdk/client-kms";
+import { IAMClient, GetUserCommand } from "@aws-sdk/client-iam";
+import { STSClient, GetCallerIdentityCommand } from "@aws-sdk/client-sts";
 
 
 async function func(): Promise<void>
@@ -30,11 +32,93 @@ async function func(): Promise<void>
         }
 
         Core.info(`Key with alias '${keyAlias}' not found. Will create key.`);
-
+        
+        const iamClient = new IAMClient({});
+        const currentUser = await iamClient.send(new GetUserCommand({}));
+        const userArn = currentUser.User!.Arn!;
+        
+        const stsClient = new STSClient({});
+        const currentCaller = await stsClient.send(new GetCallerIdentityCommand({}));
+        const accountId = currentCaller.Account!;
+        
+        const policy = `
+        {
+            "Id": "key-access-policy-1",
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "Enable IAM User Permissions",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "AWS": "arn:aws:iam::${accountId}:root"
+                    },
+                    "Action": "kms:*",
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "Allow access for Key Administrators",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "AWS": "${userArn}"
+                    },
+                    "Action": [
+                        "kms:Create*",
+                        "kms:Describe*",
+                        "kms:Enable*",
+                        "kms:List*",
+                        "kms:Put*",
+                        "kms:Update*",
+                        "kms:Revoke*",
+                        "kms:Disable*",
+                        "kms:Get*",
+                        "kms:Delete*",
+                        "kms:TagResource",
+                        "kms:UntagResource"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "Allow use of the key",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "AWS": "${userArn}"
+                    },
+                    "Action": [
+                        "kms:Encrypt",
+                        "kms:Decrypt",
+                        "kms:ReEncrypt*",
+                        "kms:GenerateDataKey*",
+                        "kms:DescribeKey"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Sid": "Allow attachment of persistent resources",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "AWS": "${userArn}"
+                    },
+                    "Action": [
+                        "kms:CreateGrant",
+                        "kms:ListGrants",
+                        "kms:RevokeGrant"
+                    ],
+                    "Resource": "*",
+                    "Condition": {
+                        "Bool": {
+                            "kms:GrantIsForAWSResource": "true"
+                        }
+                    }
+                }
+            ]
+        }
+        `;
+        
         const createKey = await client.send(new CreateKeyCommand({
             KeySpec: "SYMMETRIC_DEFAULT",
             KeyUsage: "ENCRYPT_DECRYPT",
-            MultiRegion: false
+            MultiRegion: false,
+            Policy: policy
         }));
         
         if (createKey.KeyMetadata == null)
