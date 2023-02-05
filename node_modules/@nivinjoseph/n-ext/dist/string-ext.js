@@ -33,21 +33,23 @@ class StringExt {
         for (let i = 0; i < params.length; i++) {
             const searchValue = "{" + i.toString() + "}";
             const replaceValue = (_b = (_a = params[i]) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "NULL";
-            result = StringExt.replaceAll(result, searchValue, replaceValue);
+            // result = StringExt.replaceAll(result, searchValue, replaceValue);
+            result = result.replaceAll(searchValue, replaceValue);
         }
         return result;
     }
-    static replaceAll(primary, searchValue, replaceValue) {
-        // let matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
-        // let result = primary.replace(matchOperatorsRe, "\\$&");
-        // let searchRe = new RegExp(searchValue, ignoreCase ? "gi" : "g");
-        // return result.replace(searchRe, replaceValue);
-        if (replaceValue.includes(searchValue))
-            throw new Error("replaceValue cannot include searchValue [infinite loop possibility]");
-        while (primary.includes(searchValue))
-            primary = primary.replace(searchValue, replaceValue);
-        return primary;
-    }
+    // public static replaceAll(primary: string, searchValue: string, replaceValue: string): string
+    // {
+    //     // let matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
+    //     // let result = primary.replace(matchOperatorsRe, "\\$&");
+    //     // let searchRe = new RegExp(searchValue, ignoreCase ? "gi" : "g");
+    //     // return result.replace(searchRe, replaceValue);
+    //     if (replaceValue.includes(searchValue))
+    //         throw new Error("replaceValue cannot include searchValue [infinite loop possibility]");
+    //     while (primary.includes(searchValue))
+    //         primary = primary.replace(searchValue, replaceValue);
+    //     return primary;
+    // }
     static base64Encode(value) {
         return buffer_1.Buffer.from(value, "utf8").toString("base64");
     }
@@ -235,17 +237,18 @@ function defineStringExtProperties() {
                 return StringExt.format(this.toString(), ...params);
             }
         });
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (String.prototype["replaceAll"] === undefined)
-        Object.defineProperty(String.prototype, "replaceAll", {
-            configurable: false,
-            enumerable: false,
-            writable: false,
-            value: function (searchValue, replaceValue) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                return StringExt.replaceAll(this.toString(), searchValue, replaceValue);
-            }
-        });
+    // // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // if (String.prototype["replaceAll"] === undefined)
+    //     Object.defineProperty(String.prototype, "replaceAll", {
+    //         configurable: false,
+    //         enumerable: false,
+    //         writable: false,
+    //         value: function (searchValue: string, replaceValue: string): string
+    //         {
+    //             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    //             return StringExt.replaceAll(this.toString(), searchValue, replaceValue);
+    //         }
+    //     });
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (String.prototype["base64Encode"] === undefined)
         Object.defineProperty(String.prototype, "base64Encode", {

@@ -48,14 +48,14 @@ declare global
          * @returns The formatted string.
          */
         format(...params: any[]): string;
-        /**
-         * @description Replaces all instances of `searchValue` substring inside the string with the `replaceValue` string.
-         * 
-         * @param searchValue - The substring being searched for.
-         * @param replaceValue - The string replacing the search value.
-         * @returns The string with the values replaced.
-         */
-        replaceAll(searchValue: string, replaceValue: string): string;
+        // /**
+        //  * @description Replaces all instances of `searchValue` substring inside the string with the `replaceValue` string.
+        //  * 
+        //  * @param searchValue - The substring being searched for.
+        //  * @param replaceValue - The string replacing the search value.
+        //  * @returns The string with the values replaced.
+        //  */
+        // replaceAll(searchValue: string, replaceValue: string): string;
         /**
          * @description Base64 encodes the string.
          * 

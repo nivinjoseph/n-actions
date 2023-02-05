@@ -492,6 +492,22 @@ suite("StringExt", () =>
 
             assert.strictEqual(result, "http://localhost:4002/pim-api/getAssets?$pageNumber=1&$pageSize=500");
         });
+        
+        // test.only("Regex ddos attack", () =>
+        // {
+        //     const target = "{0}";
+        //     // const searchValue = "{0}";
+        //     // const replaceValue = "Assets";
+        //     const replaceValue = "A$&ets";
+        //     // const replaceValue = "YQAt3TPI7s1YXyClbQ2$&JdHOKZJ@z4!";
+            
+        //     // const result = target.replaceAll(searchValue, replaceValue);
+            
+        //     const result = target.format(replaceValue);
+        //     console.log(result);
+            
+        //     assert.strictEqual(result, "A$&ets");
+        // });
     });
     
     suite("base64Encode and base64Decode", () =>

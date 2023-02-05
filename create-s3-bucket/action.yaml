@@ -1,0 +1,9 @@
+name: 'Create AWS S3 bucket'
+description: 'Create AWS S3 bucket if it does not exist.'
+inputs:
+  bucket-name:
+    description: 'Name of the bucket'
+    required: true
+runs:
+  using: 'node16'
+  main: '../dist/create-s3-bucket/create-s3-bucket.js'

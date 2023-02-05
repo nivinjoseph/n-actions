@@ -1,4 +1,6 @@
 {
     "test": 23,
-    "test1": null
+    "test1": null,
+    "testValue": "foo",
+    "test1Value": "bar"
 }
