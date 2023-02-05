@@ -32,7 +32,7 @@ function func() {
             if (createKey.KeyMetadata == null)
                 throw new Error(`Failed to create key with alias '${keyAlias}'.`);
             yield client.send(new client_kms_1.CreateAliasCommand({
-                AliasName: keyAlias,
+                AliasName: `alias/${keyAlias}`,
                 TargetKeyId: createKey.KeyMetadata.Arn
             }));
             Core.info(`Key with alias '${keyAlias}' successfully created.`);
