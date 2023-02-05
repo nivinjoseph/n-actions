@@ -41,7 +41,7 @@ async function func(): Promise<void>
             throw new Error(`Failed to create key with alias '${keyAlias}'.`);
         
         await client.send(new CreateAliasCommand({
-            AliasName: keyAlias,
+            AliasName: `alias/${keyAlias}`,
             TargetKeyId: createKey.KeyMetadata.Arn
         }));
 
