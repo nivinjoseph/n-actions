@@ -24,6 +24,7 @@ function func() {
             }
             const statusMessage = jobStatus.toUpperCase();
             const payload = {
+                as_user: false,
                 icon_emoji: ":github-white:",
                 text: `${jobType}: ${statusMessage}`,
                 attachments: [
