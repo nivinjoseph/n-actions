@@ -1,5 +1,6 @@
 import * as Core from "@actions/core";
-import * as Axios from "axios";
+// import * as Axios from "axios";
+import { App, Receiver } from "@slack/bolt";
 
 
 async function func(): Promise<void>
@@ -29,6 +30,7 @@ async function func(): Promise<void>
 
 
         const payload = {
+            channel: Core.getInput("slack-channel-id"),
             as_user: false,
             icon_emoji: ":github-white:",
             text: `${jobType}: ${statusMessage}`,
@@ -51,11 +53,18 @@ async function func(): Promise<void>
                 }
             ]
         };
+        
+        const app = new App({
+            receiver: new DummyReceiver(),
+            token: Core.getInput("slack-bot-token")
+        });
+        
+        await app.client.chat.postMessage(payload);
 
-        const response = await Axios.default.post(Core.getInput("slack-url"), payload);
+        // const response = await Axios.default.post(Core.getInput("slack-url"), payload);
 
-        if (response.status !== 200)
-            throw new Error("Call to Slack failed.");
+        // if (response.status !== 200)
+        //     throw new Error("Call to Slack failed.");
     }
     catch (error: any)
     {
@@ -64,3 +73,24 @@ async function func(): Promise<void>
 }
 
 func().catch(e => console.error(e));
+
+class DummyReceiver implements Receiver
+{
+    // @ts-expect-error: not used atm
+    public init(app: App<StringIndexed>): void
+    {
+        // no-op
+    }
+
+    // @ts-expect-error: not used atm
+    public start(...args: Array<any>): Promise<unknown>
+    {
+        return Promise.resolve();
+    }
+
+    // @ts-expect-error: not used atm
+    public stop(...args: Array<any>): Promise<unknown>
+    {
+        return Promise.resolve();
+    }
+}

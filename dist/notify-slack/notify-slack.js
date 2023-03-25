@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const Core = require("@actions/core");
-const Axios = require("axios");
+// import * as Axios from "axios";
+const bolt_1 = require("@slack/bolt");
 function func() {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,6 +25,7 @@ function func() {
             }
             const statusMessage = jobStatus.toUpperCase();
             const payload = {
+                channel: Core.getInput("slack-channel-id"),
                 as_user: false,
                 icon_emoji: ":github-white:",
                 text: `${jobType}: ${statusMessage}`,
@@ -46,9 +48,14 @@ function func() {
                     }
                 ]
             };
-            const response = yield Axios.default.post(Core.getInput("slack-url"), payload);
-            if (response.status !== 200)
-                throw new Error("Call to Slack failed.");
+            const app = new bolt_1.App({
+                receiver: new DummyReceiver(),
+                token: Core.getInput("slack-bot-token")
+            });
+            yield app.client.chat.postMessage(payload);
+            // const response = await Axios.default.post(Core.getInput("slack-url"), payload);
+            // if (response.status !== 200)
+            //     throw new Error("Call to Slack failed.");
         }
         catch (error) {
             Core.setFailed(error.message);
@@ -56,4 +63,18 @@ function func() {
     });
 }
 func().catch(e => console.error(e));
+class DummyReceiver {
+    // @ts-expect-error: not used atm
+    init(app) {
+        // no-op
+    }
+    // @ts-expect-error: not used atm
+    start(...args) {
+        return Promise.resolve();
+    }
+    // @ts-expect-error: not used atm
+    stop(...args) {
+        return Promise.resolve();
+    }
+}
 //# sourceMappingURL=notify-slack.js.map

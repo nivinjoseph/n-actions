@@ -7,9 +7,12 @@ inputs:
   job-status:
     description: 'Status of the job'
     required: true
-  slack-url:
-    description: 'URL for Slack integration'
+  slack-bot-token:
+    description: 'Slack bot token'
     required: true
+  slack-channel-id:
+    description: 'Slack channel ID (NOT CHANNEL NAME)'
+    required: true  
 runs:
   using: 'node16'
   main: '../dist/notify-slack/notify-slack.js'
