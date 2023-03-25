@@ -19,6 +19,7 @@ class DummyReceiver {
     }
 }
 function func() {
+    var _a, _b;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
             const jobType = Core.getInput("job-type");
@@ -38,7 +39,12 @@ function func() {
                     throw new Error(`Unknown status: ${jobStatus}`);
             }
             const statusMessage = jobStatus.toUpperCase();
-            const payload = {
+            const app = new bolt_1.App({
+                receiver: new DummyReceiver(),
+                token: Core.getInput("slack-bot-token")
+            });
+            const result = yield app.client.chat.postMessage({
+                username: "Github Actions",
                 channel: Core.getInput("slack-channel-id"),
                 as_user: false,
                 icon_emoji: ":github-white:",
@@ -48,8 +54,8 @@ function func() {
                         color,
                         blocks: [
                             {
-                                type: 'header',
-                                text: { type: 'plain_text', text: jobType }
+                                type: "header",
+                                text: { type: "plain_text", text: jobType }
                             },
                             {
                                 type: "section",
@@ -61,17 +67,22 @@ function func() {
                         ]
                     }
                 ]
-            };
-            const app = new bolt_1.App({
-                receiver: new DummyReceiver(),
-                token: Core.getInput("slack-bot-token")
             });
-            yield app.client.chat.postMessage(payload);
+            const hasError = result.errors || result.error;
+            if (hasError) {
+                const error = JSON.stringify({
+                    error: (_a = result.error) !== null && _a !== void 0 ? _a : null,
+                    errors: (_b = result.errors) !== null && _b !== void 0 ? _b : null
+                });
+                console.warn(error);
+                throw new Error(error);
+            }
             // const response = await Axios.default.post(Core.getInput("slack-url"), payload);
             // if (response.status !== 200)
             //     throw new Error("Call to Slack failed.");
         }
         catch (error) {
+            console.error(error);
             Core.setFailed(error.message);
         }
     });
