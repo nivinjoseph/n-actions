@@ -3,6 +3,27 @@ import * as Core from "@actions/core";
 import { App, Receiver } from "@slack/bolt";
 
 
+class DummyReceiver implements Receiver
+{
+    // @ts-expect-error: not used atm
+    public init(app: App<StringIndexed>): void
+    {
+        // no-op
+    }
+
+    // @ts-expect-error: not used atm
+    public start(...args: Array<any>): Promise<unknown>
+    {
+        return Promise.resolve();
+    }
+
+    // @ts-expect-error: not used atm
+    public stop(...args: Array<any>): Promise<unknown>
+    {
+        return Promise.resolve();
+    }
+}
+
 async function func(): Promise<void>
 {
     try
@@ -73,24 +94,3 @@ async function func(): Promise<void>
 }
 
 func().catch(e => console.error(e));
-
-class DummyReceiver implements Receiver
-{
-    // @ts-expect-error: not used atm
-    public init(app: App<StringIndexed>): void
-    {
-        // no-op
-    }
-
-    // @ts-expect-error: not used atm
-    public start(...args: Array<any>): Promise<unknown>
-    {
-        return Promise.resolve();
-    }
-
-    // @ts-expect-error: not used atm
-    public stop(...args: Array<any>): Promise<unknown>
-    {
-        return Promise.resolve();
-    }
-}
