@@ -1,6 +1,6 @@
 {
   "name": "n-actions",
-  "version": "3.4.4",
+  "version": "4.0.0",
   "description": "Multiple Github actions",
   "scripts": {
     "ts-compile": "tsc -p .",
