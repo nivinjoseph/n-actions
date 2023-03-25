@@ -24,15 +24,21 @@ function func() {
             }
             const statusMessage = jobStatus.toUpperCase();
             const payload = {
+                icon_emoji: ":github-white:",
+                text: `${jobType}: ${statusMessage}`,
                 attachments: [
                     {
                         color,
                         blocks: [
                             {
+                                type: 'header',
+                                text: { type: 'plain_text', text: jobType }
+                            },
+                            {
                                 type: "section",
                                 text: {
                                     type: "mrkdwn",
-                                    text: `${jobType}: *${statusMessage}*`
+                                    text: `*${statusMessage}*`
                                 }
                             }
                         ]

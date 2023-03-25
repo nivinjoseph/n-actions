@@ -37,8 +37,7 @@ async function func(): Promise<void>
                     blocks: [
                         {
                             type: 'header',
-                            text: { type: 'plain_text', text: jobType },
-
+                            text: { type: 'plain_text', text: jobType }
                         },
                         {
                             type: "section",
