@@ -1,6 +1,7 @@
 import * as Core from "@actions/core";
 // import * as Axios from "axios";
 import { App, Receiver } from "@slack/bolt";
+import { StringIndexed } from "@slack/bolt/dist/types/helpers";
 
 
 class DummyReceiver implements Receiver
@@ -48,9 +49,14 @@ async function func(): Promise<void>
         }
 
         const statusMessage = jobStatus.toUpperCase();
-
-
-        const payload = {
+        
+        const app = new App({
+            receiver: new DummyReceiver(),
+            token: Core.getInput("slack-bot-token")
+        });
+        
+        const result = await app.client.chat.postMessage({
+            username: "Github Actions",
             channel: Core.getInput("slack-channel-id"),
             as_user: false,
             icon_emoji: ":github-white:",
@@ -60,8 +66,8 @@ async function func(): Promise<void>
                     color,
                     blocks: [
                         {
-                            type: 'header',
-                            text: { type: 'plain_text', text: jobType }
+                            type: "header",
+                            text: { type: "plain_text", text: jobType }
                         },
                         {
                             type: "section",
@@ -73,14 +79,22 @@ async function func(): Promise<void>
                     ]
                 }
             ]
-        };
-        
-        const app = new App({
-            receiver: new DummyReceiver(),
-            token: Core.getInput("slack-bot-token")
         });
         
-        await app.client.chat.postMessage(payload);
+        
+        const hasError = result.errors || result.error;
+        
+        if (hasError)
+        {
+            const error = JSON.stringify({
+                error: result.error ?? null,
+                errors: result.errors ?? null
+            });
+
+            console.warn(error);
+
+            throw new Error(error);    
+        }
 
         // const response = await Axios.default.post(Core.getInput("slack-url"), payload);
 
@@ -89,6 +103,7 @@ async function func(): Promise<void>
     }
     catch (error: any)
     {
+        console.error(error);
         Core.setFailed(error.message);
     }
 }
