@@ -4,6 +4,20 @@ const tslib_1 = require("tslib");
 const Core = require("@actions/core");
 // import * as Axios from "axios";
 const bolt_1 = require("@slack/bolt");
+class DummyReceiver {
+    // @ts-expect-error: not used atm
+    init(app) {
+        // no-op
+    }
+    // @ts-expect-error: not used atm
+    start(...args) {
+        return Promise.resolve();
+    }
+    // @ts-expect-error: not used atm
+    stop(...args) {
+        return Promise.resolve();
+    }
+}
 function func() {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
@@ -63,18 +77,4 @@ function func() {
     });
 }
 func().catch(e => console.error(e));
-class DummyReceiver {
-    // @ts-expect-error: not used atm
-    init(app) {
-        // no-op
-    }
-    // @ts-expect-error: not used atm
-    start(...args) {
-        return Promise.resolve();
-    }
-    // @ts-expect-error: not used atm
-    stop(...args) {
-        return Promise.resolve();
-    }
-}
 //# sourceMappingURL=notify-slack.js.map
