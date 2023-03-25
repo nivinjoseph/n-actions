@@ -46,7 +46,7 @@ function func() {
             const result = yield app.client.chat.postMessage({
                 username: "Github Actions",
                 channel: Core.getInput("slack-channel-id"),
-                as_user: false,
+                // as_user: false, // DEPRECATED
                 icon_emoji: ":github-white:",
                 text: `${jobType}: ${statusMessage}`,
                 attachments: [
