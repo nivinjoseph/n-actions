@@ -1,5 +1,6 @@
 import * as Core from "@actions/core";
-import { S3Client, ListBucketsCommand, CreateBucketCommand, PutPublicAccessBlockCommand } from "@aws-sdk/client-s3";
+import { S3Client, ListBucketsCommand, CreateBucketCommand, PutPublicAccessBlockCommand, PutBucketPolicyCommand } from "@aws-sdk/client-s3";
+import { IAMClient, GetUserCommand } from "@aws-sdk/client-iam";
 
 
 async function func(): Promise<void>
@@ -38,6 +39,37 @@ async function func(): Promise<void>
                 RestrictPublicBuckets: true
             }
         }));
+        
+        if(isPublic)
+        {
+            const iamClient = new IAMClient({});
+            const currentUser = await iamClient.send(new GetUserCommand({}));
+            const userArn = currentUser.User!.Arn!;
+            
+            await client.send(new PutBucketPolicyCommand({
+                Bucket: bucketName,
+                Policy: `
+                {
+                    "Id": "create-s3-bucket-action-policy",
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:PutObject",
+                                "s3:PutObjectAcl"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": "arn:aws:s3:::${bucketName}/*",
+                            "Principal": {
+                                "AWS": "${userArn}"
+                            }
+                        }
+                    ]
+                }
+                `.trim()
+            }))
+        }
 
         Core.info(`Bucket with name '${bucketName}' successfully created.`);
     }
