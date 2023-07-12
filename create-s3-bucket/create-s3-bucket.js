@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const Core = require("@actions/core");
 const client_s3_1 = require("@aws-sdk/client-s3");
+const client_iam_1 = require("@aws-sdk/client-iam");
 function func() {
     var _a;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
@@ -31,6 +32,34 @@ function func() {
                     RestrictPublicBuckets: true
                 }
             }));
+            if (isPublic) {
+                const iamClient = new client_iam_1.IAMClient({});
+                const currentUser = yield iamClient.send(new client_iam_1.GetUserCommand({}));
+                const userArn = currentUser.User.Arn;
+                yield client.send(new client_s3_1.PutBucketPolicyCommand({
+                    Bucket: bucketName,
+                    Policy: `
+                {
+                    "Id": "create-s3-bucket-action-policy",
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:PutObject",
+                                "s3:PutObjectAcl"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": "arn:aws:s3:::${bucketName}/*",
+                            "Principal": {
+                                "AWS": "${userArn}"
+                            }
+                        }
+                    ]
+                }
+                `.trim()
+                }));
+            }
             Core.info(`Bucket with name '${bucketName}' successfully created.`);
         }
         catch (error) {

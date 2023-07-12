@@ -68,7 +68,7 @@ async function func(): Promise<void>
                     ]
                 }
                 `.trim()
-            }))
+            }));
         }
 
         Core.info(`Bucket with name '${bucketName}' successfully created.`);
