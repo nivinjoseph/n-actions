@@ -1,5 +1,5 @@
 import * as Core from "@actions/core";
-import { S3Client, ListBucketsCommand, CreateBucketCommand, PutPublicAccessBlockCommand, PutBucketPolicyCommand, PutBucketOwnershipControlsCommand } from "@aws-sdk/client-s3";
+import { S3Client, ListBucketsCommand, CreateBucketCommand, PutPublicAccessBlockCommand, PutBucketPolicyCommand, PutBucketOwnershipControlsCommand, PutBucketCorsCommand } from "@aws-sdk/client-s3";
 import { IAMClient, GetUserCommand } from "@aws-sdk/client-iam";
 
 
@@ -79,6 +79,28 @@ async function func(): Promise<void>
                     ]
                 }
                 `.trim()
+            }));
+            
+            await client.send(new PutBucketCorsCommand({
+                Bucket: bucketName,
+                CORSConfiguration: {
+                    CORSRules: [
+                        {
+                            "AllowedHeaders": [
+                                "*"
+                            ],
+                            "AllowedMethods": [
+                                "GET",
+                                "PUT"
+                            ],
+                            "AllowedOrigins": [
+                                "*"
+                            ],
+                            "ExposeHeaders": [],
+                            "MaxAgeSeconds": 0
+                        }
+                    ]
+                }
             }));
         }
 
