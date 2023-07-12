@@ -48,8 +48,8 @@ async function func(): Promise<void>
                     Rules: [
                         {
                             ObjectOwnership: "BucketOwnerPreferred"
-                        },
-                    ],
+                        }
+                    ]
                 }
             }));
             

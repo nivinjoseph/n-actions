@@ -33,6 +33,16 @@ function func() {
                 }
             }));
             if (isPublic) {
+                yield client.send(new client_s3_1.PutBucketOwnershipControlsCommand({
+                    Bucket: bucketName,
+                    OwnershipControls: {
+                        Rules: [
+                            {
+                                ObjectOwnership: "BucketOwnerPreferred"
+                            }
+                        ]
+                    }
+                }));
                 const iamClient = new client_iam_1.IAMClient({});
                 const currentUser = yield iamClient.send(new client_iam_1.GetUserCommand({}));
                 const userArn = currentUser.User.Arn;
