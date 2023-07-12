@@ -1,5 +1,5 @@
 import * as Core from "@actions/core";
-import { S3Client, ListBucketsCommand, CreateBucketCommand, PutPublicAccessBlockCommand, PutBucketPolicyCommand } from "@aws-sdk/client-s3";
+import { S3Client, ListBucketsCommand, CreateBucketCommand, PutPublicAccessBlockCommand, PutBucketPolicyCommand, PutBucketOwnershipControlsCommand } from "@aws-sdk/client-s3";
 import { IAMClient, GetUserCommand } from "@aws-sdk/client-iam";
 
 
@@ -42,6 +42,17 @@ async function func(): Promise<void>
         
         if(isPublic)
         {
+            await client.send(new PutBucketOwnershipControlsCommand({
+                Bucket: bucketName,
+                OwnershipControls: {
+                    Rules: [
+                        {
+                            ObjectOwnership: "BucketOwnerPreferred"
+                        },
+                    ],
+                }
+            }));
+            
             const iamClient = new IAMClient({});
             const currentUser = await iamClient.send(new GetUserCommand({}));
             const userArn = currentUser.User!.Arn!;
