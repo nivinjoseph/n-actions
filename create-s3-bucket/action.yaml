@@ -4,6 +4,9 @@ inputs:
   bucket-name:
     description: 'Name of the bucket'
     required: true
+  is-public:
+    description: 'Can the bucket contain publicly accessible objects.'
+    required: false
 runs:
   using: 'node16'
   main: '../dist/create-s3-bucket/create-s3-bucket.js'

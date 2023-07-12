@@ -7,6 +7,7 @@ async function func(): Promise<void>
     try
     {
         const bucketName = Core.getInput("bucket-name");
+        const isPublic = !!Core.getBooleanInput("is-public");
 
         const client = new S3Client({});
 
@@ -31,9 +32,9 @@ async function func(): Promise<void>
         await client.send(new PutPublicAccessBlockCommand({
             Bucket: bucketName,
             PublicAccessBlockConfiguration: {
-                BlockPublicAcls: true,
+                BlockPublicAcls: !isPublic,
+                IgnorePublicAcls: !isPublic,
                 BlockPublicPolicy: true,
-                IgnorePublicAcls: true,
                 RestrictPublicBuckets: true
             }
         }));

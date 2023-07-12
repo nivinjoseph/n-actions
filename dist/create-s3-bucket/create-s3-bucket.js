@@ -8,6 +8,7 @@ function func() {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
             const bucketName = Core.getInput("bucket-name");
+            const isPublic = !!Core.getBooleanInput("is-public");
             const client = new client_s3_1.S3Client({});
             const list = yield client.send(new client_s3_1.ListBucketsCommand({}));
             const bucketsFound = (_a = list.Buckets) !== null && _a !== void 0 ? _a : null;
@@ -24,9 +25,9 @@ function func() {
             yield client.send(new client_s3_1.PutPublicAccessBlockCommand({
                 Bucket: bucketName,
                 PublicAccessBlockConfiguration: {
-                    BlockPublicAcls: true,
+                    BlockPublicAcls: !isPublic,
+                    IgnorePublicAcls: !isPublic,
                     BlockPublicPolicy: true,
-                    IgnorePublicAcls: true,
                     RestrictPublicBuckets: true
                 }
             }));
