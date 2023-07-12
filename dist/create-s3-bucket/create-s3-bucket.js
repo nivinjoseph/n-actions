@@ -69,6 +69,27 @@ function func() {
                 }
                 `.trim()
                 }));
+                yield client.send(new client_s3_1.PutBucketCorsCommand({
+                    Bucket: bucketName,
+                    CORSConfiguration: {
+                        CORSRules: [
+                            {
+                                "AllowedHeaders": [
+                                    "*"
+                                ],
+                                "AllowedMethods": [
+                                    "GET",
+                                    "PUT"
+                                ],
+                                "AllowedOrigins": [
+                                    "*"
+                                ],
+                                "ExposeHeaders": [],
+                                "MaxAgeSeconds": 0
+                            }
+                        ]
+                    }
+                }));
             }
             Core.info(`Bucket with name '${bucketName}' successfully created.`);
         }
