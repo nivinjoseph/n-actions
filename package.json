@@ -16,7 +16,14 @@
         "test": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js' || true",
         "pretest-ci": "yarn run pretest",
         "test-ci": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",
-        "prepare-publish": "yarn run clean-dist && yarn ci && yarn run ts-build-dist && yarn prune --production"
+        "build-check-image-exists-action": "npx ncc build ./check-image-exists/check-image-exists.ts -o ./dist/check-image-exists",
+        "build-create-ecr-repo-action": "npx ncc build ./create-ecr-repo/create-ecr-repo.ts -o ./dist/create-ecr-repo",
+        "build-create-kms-key-action": "npx ncc build ./create-kms-key/create-kms-key.ts -o ./dist/create-kms-key",
+        "build-create-s3-bucket-action": "npx ncc build ./create-s3-bucket/create-s3-bucket.ts -o ./dist/create-s3-bucket",
+        "build-notify-slack-action": "npx ncc build ./notify-slack/notify-slack.ts -o ./dist/notify-slack",
+        "build-resolve-app-version-action": "npx ncc build ./resolve-app-version/resolve-app-version.ts -o ./dist/resolve-app-version",
+        "build-actions": "rm -rf ./dist && yarn run build-check-image-exists-action && yarn run build-create-ecr-repo-action && yarn run build-create-kms-key-action && yarn run build-create-s3-bucket-action && yarn run build-notify-slack-action && yarn run build-resolve-app-version-action",
+        "x-prepare-publish": "yarn run clean-dist && yarn ci && yarn run ts-build-dist && yarn prune --production"
     },
     "repository": {
         "type": "git",

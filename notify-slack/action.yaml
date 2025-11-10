@@ -14,5 +14,5 @@ inputs:
     description: 'Slack channel ID (NOT CHANNEL NAME)'
     required: true  
 runs:
-  using: 'node16'
-  main: '../dist/notify-slack/notify-slack.js'
+  using: 'node24'
+  main: '../dist/notify-slack/index.js'

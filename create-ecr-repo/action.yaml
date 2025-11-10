@@ -5,5 +5,5 @@ inputs:
     description: 'Name of the repository'
     required: true
 runs:
-  using: 'node16'
-  main: '../dist/create-ecr-repo/create-ecr-repo.js'
+  using: 'node24'
+  main: '../dist/create-ecr-repo/index.js'
