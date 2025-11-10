@@ -2,19 +2,21 @@
     "name": "n-actions",
     "version": "4.0.7",
     "description": "Multiple Github actions",
+    "packageManager": "yarn@4.0.2",
+    "type": "module",
     "scripts": {
         "ts-compile": "tsc -p .",
         "ts-lint": "eslint . --ext .ts",
-        "ts-build": "npm run ts-compile && npm run ts-lint",
-        "ts-build-dist": "npm run ts-build && tsc -p ./dist",
+        "ts-build": "yarn run ts-compile && yarn run ts-lint",
+        "ts-build-dist": "yarn run ts-build && tsc -p ./dist",
         "clean-src": "find ./src -name '*.js' -delete -o -name '*.map' -delete",
         "clean-test": "find ./test -name '*.js' -delete -o -name '*.map' -delete",
         "clean-dist": "find ./dist -name '*.js' -delete",
-        "pretest": "npm run ts-build",
+        "pretest": "yarn run ts-build",
         "test": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js' || true",
-        "pretest-ci": "npm run pretest",
+        "pretest-ci": "yarn run pretest",
         "test-ci": "mocha --reporter spec --ui tdd --require ts-node/register './test/**/*.test.js'",
-        "prepare-publish": "npm run clean-dist && npm ci && npm run ts-build-dist && npm prune --production"
+        "prepare-publish": "yarn run clean-dist && yarn ci && yarn run ts-build-dist && yarn prune --production"
     },
     "repository": {
         "type": "git",
