@@ -1,6 +1,6 @@
 {
     "name": "n-actions",
-    "version": "4.0.7",
+    "version": "5.0.0",
     "description": "Multiple Github actions",
     "packageManager": "yarn@4.0.2",
     "type": "module",
