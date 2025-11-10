@@ -8,7 +8,7 @@
         "ts-compile": "tsc -p .",
         "ts-lint": "eslint . --ext .ts",
         "ts-build": "yarn run ts-compile && yarn run ts-lint",
-        "ts-build-dist": "yarn run ts-build && tsc -p ./dist",
+        "x-ts-build-dist": "yarn run ts-build && tsc -p ./dist",
         "clean-src": "find ./src -name '*.js' -delete -o -name '*.map' -delete",
         "clean-test": "find ./test -name '*.js' -delete -o -name '*.map' -delete",
         "clean-dist": "find ./dist -name '*.js' -delete",

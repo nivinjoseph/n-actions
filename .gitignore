@@ -115,6 +115,12 @@ check-image-exists/**/*.map
 create-ecr-repo/**/*.js
 create-ecr-repo/**/*.map
 
+create-kms-key/**/*.js
+create-kms-key/**/*.map
+
+create-s3-bucket/**/*.js
+create-s3-bucket/**/*.map
+
 notify-slack/**/*.js
 notify-slack/**/*.map
 
