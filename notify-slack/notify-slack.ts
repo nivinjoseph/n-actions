@@ -1,29 +1,7 @@
 import * as Core from "@actions/core";
 // import * as Axios from "axios";
-import { App, Receiver } from "@slack/bolt";
-import { StringIndexed } from "@slack/bolt/dist/types/helpers";
+import SlackWebApi from "@slack/web-api";
 
-
-class DummyReceiver implements Receiver
-{
-    // @ts-expect-error: not used atm
-    public init(app: App<StringIndexed>): void
-    {
-        // no-op
-    }
-
-    // @ts-expect-error: not used atm
-    public start(...args: Array<any>): Promise<unknown>
-    {
-        return Promise.resolve();
-    }
-
-    // @ts-expect-error: not used atm
-    public stop(...args: Array<any>): Promise<unknown>
-    {
-        return Promise.resolve();
-    }
-}
 
 async function func(): Promise<void>
 {
@@ -50,12 +28,9 @@ async function func(): Promise<void>
 
         const statusMessage = jobStatus.toUpperCase();
         
-        const app = new App({
-            receiver: new DummyReceiver(),
-            token: Core.getInput("slack-bot-token")
-        });
+        const slackWebClient = new SlackWebApi.WebClient(Core.getInput("slack-bot-token"));
         
-        const result = await app.client.chat.postMessage({
+        const result = await slackWebClient.chat.postMessage({
             username: "Github Actions",
             channel: Core.getInput("slack-channel-id"),
             // as_user: false, // DEPRECATED
