@@ -42754,7 +42754,7 @@ async function func() {
                 throw new Error(`Unknown status: ${jobStatus}`);
         }
         const statusMessage = jobStatus.toUpperCase();
-        const slackWebClient = new (_slack_web_api__WEBPACK_IMPORTED_MODULE_1___default().WebClient)(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("slack-bot-token"));
+        const slackWebClient = new _slack_web_api__WEBPACK_IMPORTED_MODULE_1__.WebClient(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("slack-bot-token"));
         const result = await slackWebClient.chat.postMessage({
             username: "Github Actions",
             channel: _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("slack-channel-id"),

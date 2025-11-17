@@ -1,6 +1,6 @@
 import * as Core from "@actions/core";
 // import * as Axios from "axios";
-import SlackWebApi from "@slack/web-api";
+import { WebClient } from "@slack/web-api";
 
 
 async function func(): Promise<void>
@@ -27,9 +27,9 @@ async function func(): Promise<void>
         }
 
         const statusMessage = jobStatus.toUpperCase();
-        
-        const slackWebClient = new SlackWebApi.WebClient(Core.getInput("slack-bot-token"));
-        
+
+        const slackWebClient = new WebClient(Core.getInput("slack-bot-token"));
+
         const result = await slackWebClient.chat.postMessage({
             username: "Github Actions",
             channel: Core.getInput("slack-channel-id"),
@@ -55,10 +55,10 @@ async function func(): Promise<void>
                 }
             ]
         });
-        
-        
+
+
         const hasError = result.errors || result.error;
-        
+
         if (hasError)
         {
             const error = JSON.stringify({
@@ -68,7 +68,7 @@ async function func(): Promise<void>
 
             console.warn(error);
 
-            throw new Error(error);    
+            throw new Error(error);
         }
 
         // const response = await Axios.default.post(Core.getInput("slack-url"), payload);
